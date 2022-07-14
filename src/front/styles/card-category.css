@@ -1,0 +1,14 @@
+
+.category-size{
+    /* width: 25%; */
+    border-radius: 100px;
+    background-color: white;
+}
+
+.category-size:hover{
+    background-color: rgb(250, 199, 16);;
+}
+
+.category-item{
+    max-width: 300px;
+}
