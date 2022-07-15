@@ -29,6 +29,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			]
 		},
 		actions: {
+			//Esta funcion es para loguearte directamente si tienes un token en el navegador valido
 			firstLoadToken: () => {
 				const tok = localStorage.getItem('token')
 				if(tok){
@@ -37,6 +38,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						setStore({token: tok})
 						setStore({userVotes: true})
 					} else {
+						setStore({token: null})
 						return "Token no valido o expirado flux 42"
 					}
 				} else {
@@ -116,40 +118,83 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				})
 				.then(res => {
-					console.log("esto es res", res)
 					if (res.status == 200 || res.status == 201){
-						// setStore({myAuthFlag: true})
+						setStore({myAuthFlag: true})
 						setStore({nombre: res.nickname})
-						setStore({userVotes: true})
-						// Si la respuesta del back es positiva, setea esta flag en false para que en caso de que el usuario 
-						// haya fallado anteriormente al intentar loguearse pueda loguear sin problema
 						setStore({loginEmailPassMatch: false})
-						alert("esto es el res 200")
+						
 
 					} else {
-						// Es una flag para validar en form del login, si la respuesta del back es negativa te dice que fallaste
-						// al escribir el email o la password
-						setStore({loginEmailPassMatch: true}) 
+						setStore({loginEmailPassMatch: true}) // Para validar en form loginModal linea: 56
 						return "Usuario o clave incorrectas"
 					}
-					
 					return res.json()
 				})
 				.then(data => {
-					console.log("esto es data l 137", data)
+					console.log({data})
 					localStorage.setItem("token", data)
 					setStore({token: data})
+					setStore({userVotes: true})
 					
 					
-					// const modal = document.getElementById("loginModal")
-					// const m = bootstrap.Modal.getInstance(modal)
-					// m.hide()
-				})
-				.catch(error => {
-					console.log("esto es error", {error})
-					alert("error en el fetch flux l 147", error)
+					const modal = document.getElementById("loginModal")
+					const m = bootstrap.Modal.getInstance(modal)
+					m.hide()
+					
+					
 				})
 			},
+			// login: (email, password) => {
+			// 	const userCredentials = {
+			// 		email: email,
+			// 		password: password
+			// 	};
+			// 	console.log(email)
+			// 	console.log(password)
+			// 	console.log(userCredentials)
+
+			// 	fetch(`${config.hostname}/api/login`, {
+			// 		method: 'POST',
+			// 		body: JSON.stringify({userCredentials}),
+			// 		headers: {
+			// 			'Content-Type': 'application/json'
+			// 		}
+			// 	})
+			// 	.then(res => {
+			// 		console.log("esto es res", res)
+			// 		if (res.status == 200 || res.status == 201){
+			// 			// setStore({myAuthFlag: true})
+						
+			// 			setStore({userVotes: true})
+			// 			// Si la respuesta del back es positiva, setea esta flag en false para que en caso de que el usuario 
+			// 			// haya fallado anteriormente al intentar loguearse pueda loguear sin problema
+			// 			setStore({loginEmailPassMatch: false})
+			// 			alert("esto es el res 200")
+			// 			console.log({res})
+			// 			return res.json()
+
+			// 		} else {
+			// 			// Es una flag para validar en form del login, si la respuesta del back es negativa te dice que fallaste
+			// 			// al escribir el email o la password
+			// 			setStore({loginEmailPassMatch: true}) 
+			// 			return "Usuario o clave incorrectas"
+			// 		}
+					
+				
+			// 	})
+			// 	.then(data => {
+			// 		console.log("esto es data l 137", {data})
+			// 		localStorage.setItem("token", data)
+			// 		setStore({token: data})
+			// 		// const modal = document.getElementById("loginModal")
+			// 		// const m = bootstrap.Modal.getInstance(modal)
+			// 		// m.hide()
+			// 	})
+			// 	.catch(error => {
+			// 		console.log("esto es error", {error})
+			// 		alert("error en el fetch flux l 147", error)
+			// 	})
+			// },
 
 			//Crear cerveza
 			createbeer: (image, name, smell, category, source, alcohol, company, description) => {
@@ -176,7 +221,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			//LOGOUT
 			logout: () => {
 				localStorage.removeItem('token')
-				// setStore({myAuthFlag: false})
+				setStore({token: null})
 			},
 
 			// setMyAuthFlag: (value) => {

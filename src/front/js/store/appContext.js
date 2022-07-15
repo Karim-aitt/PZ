@@ -24,7 +24,7 @@ const injectContext = PassedComponent => {
 		useEffect(() => {
 			state.actions.getCategories()
 			state.actions.getBeers()
-			state.actions.firstLoadToken()
+			// state.actions.firstLoadToken()
 
 			/**
 			 * EDIT THIS!

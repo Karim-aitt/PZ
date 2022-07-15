@@ -79,20 +79,23 @@ def add_Signup():
 
 @api.route('/login' , methods=['POST']) 
 def login_user():
-
+    # response = jsonify({"order_id": 123, "status": "shipped"})
+    # response.headers.add("Access-Control-Allow-Origin", "*")
+    # return response
     body = request.get_json()
+    print(body)
     user_check_email = body['email'] 
     user_check_password = body['password']
     
     user = User.query.filter_by(email=user_check_email).first()
     if user is None:
-        raise APIException('Usuario no encontrado /routes login l 89')
+        raise APIException('Usuario no encontrado /routes login l 92')
 
     # la funcion checkpw usa BYTES no STRINGS por eso hay que hacer enconde !!!!!!!
     passwordCheck = bcrypt.checkpw(user_check_password.encode('utf-8'), user.password.encode('utf-8'))
     print('esto es passwordCheck', passwordCheck)
     if passwordCheck is False:
-        raise APIException('Clave incorrecta /routes login l 95')
+        raise APIException('Clave incorrecta /routes login l 98')
 
     data = {
         "id": user.id,
@@ -103,7 +106,18 @@ def login_user():
     }
 
     token = create_access_token(identity=data)
-    return jsonify(token), 200
+    
+    # json = jsonify(token)
+    # print(json)
+    return jsonify(token)
+    # token = create_access_token(identity=data)
+    # response = jsonify(token)
+    # response.headers.add("Access-Control-Allow-Origin", "*")
+    # response.status = 201
+    # print({response})
+    # return response
+    
+    
 
 
 ##------------------------------------------------------------------------------##

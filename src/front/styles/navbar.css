@@ -4,7 +4,6 @@
     background-color: var(--first-color)
 }
 
-
 .custom-buttom{
     font-size: 25px;
     color: white;
@@ -23,7 +22,7 @@
 
 .drop-size{
     position: relative;
-    right: 30px;
+    right: 40px;
     top: 1px;
 }
 
@@ -59,3 +58,7 @@
         
     }
   }
+
+.navbar-link{
+    text-decoration: none;
+}

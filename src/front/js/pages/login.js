@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
+import config from "../config";
 
 import "../../styles/login.css";
 
@@ -38,8 +39,22 @@ const [surname, setSurname] = useState("");
 const [passMatch, setPassMatch] = useState(false); //flag de "la password no coincide"
 const [allDone, setAllDone] = useState(false)  //flag Registro completado
 
+// const loginFetch = (nickname, name, surnames, email, pass) => {
+
+//       fetch(`${config.hostname}/api/login`, {
+//         method: 'POST',
+//         body: JSON.stringify({nickname, name, surnames, email, password}),
+//         headers: {
+//           'Content-Type': 'application/json'
+//         }
+//       })
+//       .then()
+// }
+
+
   return (
     
+
     <>
     {store.token == null ? 
 
@@ -48,7 +63,7 @@ const [allDone, setAllDone] = useState(false)  //flag Registro completado
             <img  src={banner} />
         </div>
 
-        <div className="border border-3 border-secondary rounded w-25 ms-auto pos_login">
+        <div className="border border-3 border-secondary rounded w-25 ms-auto pos_login container-width">
             <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li className="nav-item" role="presentation">
                     <button className="nav-link active text-dark m-2 border border-secondary" id="pills-login-tab" data-bs-toggle="pill" data-bs-target="#pills-login" type="button" role="tab" aria-controls="pills-login" aria-selected="true">Login</button>
@@ -87,6 +102,8 @@ const [allDone, setAllDone] = useState(false)  //flag Registro completado
                 <input type="submit" className="btn btn-dark m-2" value="Log In"
                 onClick={() => {
                     // ESTO ES EL SUBMIT que debe enviar los datos de login
+                    console.log("esto es email", email)
+                    console.log("esto es pass", pass)
                     actions.login(email, pass)
                 
                 }}
@@ -183,8 +200,8 @@ const [allDone, setAllDone] = useState(false)  //flag Registro completado
                   setPassMatch(false)
                   setAllDone(true)
                   
-                  actions.signup(nickname, username, surname, email, pass) //Envio al fetch de flux
-
+                  // actions.signup(nickname, username, surname, email, pass) //Envio al fetch de flux
+                  loginFetch(nickname, username, surname, email, pass)
                   // Reset de variables para que los inputs aparezcan vacios de nuevo
                 //   setNickname("");
                 //   setEmail("");
@@ -223,7 +240,7 @@ const [allDone, setAllDone] = useState(false)  //flag Registro completado
             </div>
         </div>
     </div>
-: <Navigate to="/home" />}
+ : <Navigate to="/home" />}
 </>
   );
 };

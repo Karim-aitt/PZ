@@ -1,15 +1,21 @@
-import React from "react";
+import React, {useState, useContext} from "react";
+import { Context } from "../store/appContext";
+
+import { Createbeer } from "./Createbeer.jsx";
+
 import { Link } from "react-router-dom";
 import "../../styles/navbar.css";
 
 export const Navbar = () => {
+  const { store, actions } = useContext(Context);
+
   return (
     <nav className="navbar navbar-expand-sm navbar-dark bg-dark d-flex ">
       <div className="container-fluid d-flex justify-content-center">
       
       {/* BOTONES dE HOME Y CATEGORIAS */}
-      <i onClick="" className="fas fa-home custom-buttom me-xs-1 me-3"></i>
-      <i onClick="" className="fas fa-beer custom-buttom me-xs-1 me-3"></i>
+      <Link to="/home" onClick="" className="fas fa-home custom-buttom me-xs-1 me-3 navbar-link"></Link>
+      <Link to="/categories" onClick="" className="fas fa-beer custom-buttom me-xs-1 me-3 navbar-link"></Link>
       
 
         <a className="navbar-brand logo-hover d-flex fw-bold" href="#">
@@ -17,12 +23,20 @@ export const Navbar = () => {
         </a>
         
         {/* BOTONES dE AÑADIR Y PERFIL */}
-        <i onClick="" className="far fa-plus-square custom-buttom me-5 ms-0 ps-0"></i>
+        <Link 
+        to="#"
+        aria-current="page"
+        type="button" 
+        className="far fa-plus-square custom-buttom me-5 ms-0 ps-0 navbar-link"
+        data-bs-toggle="modal"
+        data-bs-target="#createbeerModal"
+        />
+        <Createbeer />
 
         <div className="navbar-nav dropdown drop-size">
 		
           <a
-            classNameName="nav-link dropdown-toggle"
+            className="nav-link dropdown-toggle"
             href="#"
             id="navbarDropdown"
             role="button"
@@ -50,7 +64,11 @@ export const Navbar = () => {
               <hr className="dropdown-divider" />
             </li>
             <li>
-              <a className="dropdown-item" href="#">
+              <a className="dropdown-item" href="#"
+              onClick={() => {
+                actions.logout()
+              }}
+              >
                 Logout
               </a>
             </li>

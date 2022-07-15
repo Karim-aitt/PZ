@@ -14,10 +14,12 @@ import banner from "../../img/bannerWeb2.png"
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);
-
+	console.log(store.beers[0])
+	console.log(store.categories)
+	
 	return (
 		<>
-		{store.token != null ? 
+		{/* {store.token != null ?  */}
 		<>
 			<Navbar />
 			<div className="container-fluid mx-0 px-0 banner-container shadow-lg">
@@ -26,14 +28,31 @@ export const Home = () => {
 			<div className="d-flex flex-row justify-content-center px-0">
 			<div className="me-sm-3">
 				{/* AQUI SE GENERAN TODAS LAS CARDS PRINCIPALES */}
-				<CardDetail name={"Domus"} type={"Trigo"} alcohol={"4.5%"} autor={"Inc SL"}/>
-				<CardDetail name={"Domus"} type={"Trigo"} alcohol={"4.5%"} autor={"Inc SL"}/>
+				{store.beers.length >0 ? store.beers.map((elem, i) => {
+					
+					let cat_name = ""
+
+					const getNameCategory = (id) =>{
+						for(let i=0; i < store.categories.length; i++){
+							if(store.categories[i].id == id) {
+								cat_name = store.categories[i].name
+							}
+						}
+					}
+					getNameCategory(elem.category_id)
+                  return (
+						<CardDetail key={i} name={elem.name} type={cat_name} alcohol={elem.alcohol} company={elem.company} img={elem.image} descrip={elem.description}/> 
+                  )
+                })
+                : 
+                  <p className="text-center px-2 pt-2">No hay cervezas</p>
+                }
 			</div>
 
 			<div className="mt-5 ms-3">
 				{/* ESTO ES EL DIV DONDE SE GENERAN TODAS LAS CARDS DE CATEGORIAS */}
 				<div className="d-none d-md-block mes me-auto borde back-color sticky-top">
-					<div className="mes-header fw-bold text-center bg-dark"><p className="py-2 text-white">Categories</p></div>
+					<div className="mes-header fw-bold text-center bg-dark"><p className="py-2 px-2 text-white">Categories</p></div>
 					<CardCategory />
 				</div>
 				
@@ -42,7 +61,7 @@ export const Home = () => {
 			{/* COLOCAR DEBAJO DE CATEGORIAS */}
 			<Footer />
 		</>	
-		: <Navigate to="/" />}
+		{/* : <Navigate to="/" />} */}
 		</>
 		
 	);
