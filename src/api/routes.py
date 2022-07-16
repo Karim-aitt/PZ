@@ -82,12 +82,13 @@ def login_user():
     # response = jsonify({"order_id": 123, "status": "shipped"})
     # response.headers.add("Access-Control-Allow-Origin", "*")
     # return response
+
     body = request.get_json()
-    print(body)
+
     user_check_email = body['email'] 
     user_check_password = body['password']
-    
     user = User.query.filter_by(email=user_check_email).first()
+
     if user is None:
         raise APIException('Usuario no encontrado /routes login l 92')
 
